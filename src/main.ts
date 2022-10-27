@@ -8,10 +8,14 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
+      logger:
+        process.env.NODE_ENV === 'development'
+          ? ['log', 'debug', 'error', 'verbose', 'warn']
+          : ['log', 'error', 'warn'],
       transport: Transport.RMQ,
       options: {
-        urls: ['amqp://192.168.43.169:30072/dev'],
-        queue: 'analytics',
+        urls: [process.env.RABBITMQ_URL || 'amqp://192.168.43.169:30072'],
+        queue: process.env.ANALYTICS_QUEUE || 'analytics',
         noAck: false,
         queueOptions: {
           durable: true,
