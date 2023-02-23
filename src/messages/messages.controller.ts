@@ -37,9 +37,7 @@ export class MessagesController {
     channel.ack(originalMsg);
   }
   @EventPattern({
-    group: 'speech-analytics',
-    sent_by: 'bot-api',
-    to_processor: 'T2',
+    group: 'test',
   })
   async t2SpeechEvent(data: Record<string, unknown>) {
     this.logger.log(`T2 does speech: ${JSON.stringify(data)}`);
